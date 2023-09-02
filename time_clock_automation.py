@@ -89,7 +89,7 @@ def main(argv):
     if argv[1] == INIT:
         create_secret()
     elif argv[1] in ACTION_DICT:
-        log(ACTION_DICT.get(argv[1]), test=True)
+        log(ACTION_DICT.get(argv[1]), test=False)
     else:
             exit(-1)
 
