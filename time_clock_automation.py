@@ -26,10 +26,6 @@ ACTION_DICT = {
     "full": END_MEAL_XPATH,
 }
 
-options = webdriver.ChromeOptions()
-options.add_experimental_option("detach", True)
-driver = webdriver.Chrome(options=options)
-
 def create_secret():
     secrets_dict = {"login_details": {}}
     secrets_dict["login_details"]["url"] = input("Enter TCP portal URL: ")
@@ -49,6 +45,7 @@ def log(action, test=False):
     badge_number = conf['login_details']['badge_number']
     pin = conf['login_details']['pin']
 
+    driver = webdriver.Chrome()
     driver.get(url=url)
     
     wait = WebDriverWait(driver, 10)
@@ -61,7 +58,7 @@ def log(action, test=False):
     badge_submit_element = wait.until(EC.element_to_be_clickable((By.XPATH, BADGE_NUMBER_SUBMIT_XPATH)))
     badge_submit_element.click()
 
-    # TODO Directly inject pin.
+    # TODO Directly inject pin. Currently just selects input box to make pin input faster.
     pin_element = wait.until(EC.presence_of_element_located((By.ID, PIN_ID)))
     pin_element = wait.until(EC.visibility_of_element_located((By.ID, PIN_ID)))
     pin_element = wait.until(EC.element_to_be_clickable((By.ID, PIN_ID)))
