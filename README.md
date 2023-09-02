@@ -9,7 +9,7 @@
 ### To initialize your secrets.yaml file, run:
 `./clock.sh init`
 #### Note: The URL must contain the numerical identifier at the beginning and the end:
-`https://281685.tcplusondemand.com/app/webclock/#/EmployeeLogOn/281685`
+`https://123456.tcplusondemand.com/app/webclock/#/EmployeeLogOn/123456`
 
 ### To test, run:
 `./clock.sh test`
