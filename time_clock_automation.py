@@ -17,6 +17,7 @@ END_MEAL_XPATH = "//input[@value='End Meal Period]"
 CONTINUE_XPATH = "//input[@value='Continue']"
 CANCEL_XPATH = "//input[@value='Cancel']"
 OK_XPATH = "//input[@value='Ok']"
+TEST = "test"
 INIT = "init"
 
 ACTION_DICT = {
@@ -34,7 +35,7 @@ def create_secret():
     with open("secrets.yaml", 'w') as file:
         yaml.dump(secrets_dict, file)
 
-def log(action, test=False):
+def log(action, test):
     try: 
         conf = yaml.safe_load(open('secrets.yaml'))
     except IOError:
@@ -48,7 +49,7 @@ def log(action, test=False):
     driver = webdriver.Chrome()
     driver.get(url=url)
     
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 30)
 
     badge_number_element = wait.until(EC.presence_of_element_located((By.ID, BADGE_NUMBER_ID)))
     badge_number_element = wait.until(EC.visibility_of_element_located((By.ID, BADGE_NUMBER_ID)))
@@ -84,10 +85,14 @@ def log(action, test=False):
     cancel_element = wait.until(EC.element_to_be_clickable((By.XPATH, CANCEL_XPATH)))
     cancel_element.click()
 
+    print("Success!")
+
 
 def main(argv):
     if argv[1] == INIT:
         create_secret()
+    elif argv[1] == TEST:
+         log(CLOCK_IN_XPATH, test=True)
     elif argv[1] in ACTION_DICT:
         log(ACTION_DICT.get(argv[1]), test=False)
     else:

@@ -11,6 +11,9 @@
 #### Note: The URL must contain the numerical identifier at the beginning and the end:
 `https://281685.tcplusondemand.com/app/webclock/#/EmployeeLogOn/281685`
 
+### To test, run:
+`./clock.sh test`
+
 ### To clock in, run:
 `./clock.sh in`
 
