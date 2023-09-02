@@ -1,7 +1,5 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium import webdriver
 import yaml
@@ -28,6 +26,10 @@ ACTION_DICT = {
     "full": END_MEAL_XPATH,
 }
 
+options = webdriver.ChromeOptions()
+options.add_experimental_option("detach", True)
+driver = webdriver.Chrome(options=options)
+
 def create_secret():
     secrets_dict = {"login_details": {}}
     secrets_dict["login_details"]["url"] = input("Enter TCP portal URL: ")
@@ -47,10 +49,6 @@ def log(action, test=False):
     badge_number = conf['login_details']['badge_number']
     pin = conf['login_details']['pin']
 
-    options = webdriver.ChromeOptions()
-    options.add_experimental_option("detach", True)
-    driver = webdriver.Chrome(options=options)
-
     driver.get(url=url)
     
     wait = WebDriverWait(driver, 10)
@@ -62,6 +60,17 @@ def log(action, test=False):
 
     badge_submit_element = wait.until(EC.element_to_be_clickable((By.XPATH, BADGE_NUMBER_SUBMIT_XPATH)))
     badge_submit_element.click()
+
+    # TODO Directly inject pin.
+    pin_element = wait.until(EC.presence_of_element_located((By.ID, PIN_ID)))
+    pin_element = wait.until(EC.visibility_of_element_located((By.ID, PIN_ID)))
+    pin_element = wait.until(EC.element_to_be_clickable((By.ID, PIN_ID)))
+    # driver.execute_script("arguments[0].type = 'text';", pin_element)
+    pin_element.click()
+    # pin_element.send_keys(pin)
+
+    # pin_submit_element = wait.until(EC.element_to_be_clickable((By.XPATH, PIN_SUBMIT_XPATH)))
+    # pin_submit_element.click() 
 
     action_element = wait.until(EC.presence_of_element_located((By.XPATH, action)))
     action_element = wait.until(EC.visibility_of_element_located((By.XPATH, action)))
@@ -83,7 +92,7 @@ def main(argv):
     if argv[1] == INIT:
         create_secret()
     elif argv[1] in ACTION_DICT:
-        log(ACTION_DICT.get(argv[1]), test=False)
+        log(ACTION_DICT.get(argv[1]), test=True)
     else:
             exit(-1)
 
