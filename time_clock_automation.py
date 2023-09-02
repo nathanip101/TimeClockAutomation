@@ -19,7 +19,6 @@ END_MEAL_XPATH = "//input[@value='End Meal Period]"
 CONTINUE_XPATH = "//input[@value='Continue']"
 CANCEL_XPATH = "//input[@value='Cancel']"
 OK_XPATH = "//input[@value='Ok']"
-TEST = "test"
 INIT = "init"
 
 ACTION_DICT = {
@@ -41,9 +40,9 @@ def log(action, test=False):
     try: 
         conf = yaml.safe_load(open('secrets.yaml'))
     except IOError:
-        print("Error: secrets.yaml file does not exist.\nRun create_secrets.sh to create.")
+        print("Error: secrets.yaml file does not exist.\nRun ./clock.sh init to create.")
         exit(-1)
-        
+
     url = conf['login_details']['url']
     badge_number = conf['login_details']['badge_number']
     pin = conf['login_details']['pin']
@@ -84,7 +83,7 @@ def main(argv):
     if argv[1] == INIT:
         create_secret()
     elif argv[1] in ACTION_DICT:
-        log(ACTION_DICT.get(argv[1]), test=True)
+        log(ACTION_DICT.get(argv[1]), test=False)
     else:
             exit(-1)
 

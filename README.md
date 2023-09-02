@@ -1,8 +1,8 @@
 # Time Clock Automation Script
 ### Skip all the clickinggggg....
 
-#### To use, you must first generate your secrets.yaml file. To initialize your secrets.yaml file, run:
-`./clock secret`
+#### To initialize your secrets.yaml file, run:
+`./clock.sh init`
 
 #### To clock in, run:
 `./clock.sh in`
